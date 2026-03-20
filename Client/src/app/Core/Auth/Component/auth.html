@@ -1,0 +1,40 @@
+<div class="grow h-full flex justify-center py-30">
+  <div class="w-full max-w-md">
+    <h1 class="text-4xl font-bold tracking-widest py-10">Connexion</h1>
+
+    <form class="py-10" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+      <div class="flex flex-col">
+        <label>Email</label>
+        <input type="email" class="border rounded-lg w-full h-10" name="email" formControlName="email">
+        @if(loginForm.controls['email'].invalid && loginForm.controls['email'].touched) {
+        <div class="text-red-600">
+          Email invalide
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label>Mot de passe</label>
+        <input type="password" class="border rounded-lg w-full h-10" name="password" formControlName="password">
+        @if(loginForm.controls['password'].invalid && loginForm.controls['password'].touched) {
+        <div class="text-red-600">
+          Mot de passe requis
+        </div>
+        }
+
+      </div>
+
+      <div class="py-5">
+        @if(error) {
+        <div class="text-red-700">{{ error }}</div>
+        }
+        <button type="submit" class="border rounded-lg w-full h-10" [class]="{'cursor-pointer': loginForm.valid}"
+          [class]="{'bg-gray-300' : loginForm.invalid || loading, 'border-none': loginForm.invalid || loading, 'text-white': loginForm.invalid || loading,
+          'cursor-not-allowed': loginForm.invalid || loading}"
+          [disabled]="loginForm.invalid || loading">
+          Se connecter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
