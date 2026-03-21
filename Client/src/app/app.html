@@ -2,10 +2,12 @@
   <app-navbar></app-navbar>
   <main class="flex-1">
     @if(onIsLoading() | async) {
-      <app-loader></app-loader>
+    <app-loader></app-loader>
     } @else {
-      <router-outlet/>
+      <router-outlet />
     }
   </main>
   <app-footer></app-footer>
 </div>
+
+<h1>OK</h1>

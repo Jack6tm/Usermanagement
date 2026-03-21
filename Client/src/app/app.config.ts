@@ -8,8 +8,7 @@ import { loaderInterceptor } from './Core/Loader/Interceptor/loader-interceptor-
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor])),
-    provideHttpClient(withInterceptors([loaderInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, loaderInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes)
   ]

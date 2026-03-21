@@ -20,8 +20,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Client');
-
   constructor(private loaderSvc: LoaderService) {}
 
   public onIsLoading(): Observable<Boolean> {

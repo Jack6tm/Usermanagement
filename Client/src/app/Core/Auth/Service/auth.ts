@@ -51,12 +51,15 @@ export class AuthService extends HttpSvc implements AuthInterface {
   isAuth() {
     const token = this.getAuthToken();
     if (!token) {
+      this._isLoggedIn$.next(false);
       return false;
     }
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+      this._isLoggedIn$.next(payload.exp * 1000 > Date.now());
       return payload.exp * 1000 > Date.now();
     } catch {
+      this._isLoggedIn$.next(false);
       return false;
     }
   }
