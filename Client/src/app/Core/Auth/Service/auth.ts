@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpSvc } from './http-svc';
@@ -16,6 +16,15 @@ export class AuthService extends HttpSvc implements AuthInterface {
 
   constructor(private http: HttpClient) {
     super();
+    if (this.isAuth()) {
+      this.getMe().subscribe({
+        error: (err) => {
+          console.error('getMe error:', err);
+          this._userSubject.next(null);
+          this._isLoggedIn$.next(false);
+        }
+      });
+    }
   }
 
   login(email: string, password: string): Observable<any> {
@@ -52,6 +61,7 @@ export class AuthService extends HttpSvc implements AuthInterface {
     const token = this.getAuthToken();
     if (!token) {
       this._isLoggedIn$.next(false);
+      this._userSubject.next(null);
       return false;
     }
     try {

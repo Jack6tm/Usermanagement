@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class Navbar {
 
   constructor(private authSvc: AuthService,
-              private router: Router) {
+    private router: Router) {
   }
 
   isLoggedIn() {
