@@ -20,9 +20,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.css'
 })
 export class App {
-  constructor(private loaderSvc: LoaderService) {}
+  loading$: Observable<Boolean>;
 
-  public onIsLoading(): Observable<Boolean> {
-      return this.loaderSvc.isLoading$;
-    }
+  constructor(private loaderSvc: LoaderService) {
+    this.loading$ = this.loaderSvc.isLoading$;
+  }
 }

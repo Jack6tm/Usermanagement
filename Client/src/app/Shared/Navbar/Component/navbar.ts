@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../Core/Auth/Service/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -10,9 +11,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  public user$: Observable<any>;
 
   constructor(private authSvc: AuthService,
     private router: Router) {
+    this.user$ = this.authSvc.user$;
   }
 
   isLoggedIn() {

@@ -1,7 +1,7 @@
 <div class="min-h-screen flex flex-col">
   <app-navbar></app-navbar>
   <main class="flex-1">
-    @if(onIsLoading() | async) {
+    @if(loading$ | async) {
     <app-loader></app-loader>
     } @else {
       <router-outlet />

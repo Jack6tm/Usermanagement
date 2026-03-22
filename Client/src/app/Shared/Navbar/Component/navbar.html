@@ -3,7 +3,7 @@
     @if(isLoggedIn() | async) {
     <div>
       <ul class="text-center">
-        @if(getUser() | async; as user) {
+        @if(user$ | async; as user) {
         <li>
           {{user.name}},
         </li>
