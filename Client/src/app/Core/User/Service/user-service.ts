@@ -26,7 +26,17 @@ export class UserService extends HttpSvc implements UserInterface {
       { headers: this.httpHeader() }
     ).pipe(
       tap((users: any)  => {
-        console.log(users.data);
+        this._usersSubject.next(users.data);
+        this._usersCountSubject.next(users.data.length);
+      }));
+  }
+
+  public delete(id:Number) {
+    return this.http.delete(
+      `${this.apiUrl}${UserService.API_PATH}/${id}`,
+      { headers: this.httpHeader() }
+    ).pipe(
+      tap((users: any)  => {
         this._usersSubject.next(users.data);
         this._usersCountSubject.next(users.data.length);
       }));

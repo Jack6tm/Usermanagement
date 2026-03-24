@@ -25,13 +25,7 @@ export class Users implements OnInit {
     this.users$ = this.userSvc.user$;
   }
 
-  onAddUser() {
-    alert("add");
-  }
   onDeleteUser(id: Number) {
-    alert(`del ${id}`);
-  }
-  onEditUser(id: Number) {
-    alert(`edit ${id}`);
+    this.userSvc.delete(id).subscribe();
   }
 }
