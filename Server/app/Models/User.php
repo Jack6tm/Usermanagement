@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Policies\UserPolicy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
+#[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<UserFactory> */
