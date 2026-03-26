@@ -38,7 +38,7 @@ export class DialogContent {
   public passwordFormControl = new FormControl(this.data.user ? this.data.user.password : "", [Validators.required]);
   public firstNameFormControl = new FormControl(this.data.user ? this.data.user.first_name : "", [Validators.required]);
   public companyPositionFormControl = new FormControl(this.data.user ? this.data.user.company_position : "", [Validators.required]);
-  public roleFormControl = new FormControl(this.data.user ? this.data.user.role : "", [Validators.required]);
+  public roleFormControl = new FormControl(this.data.user ? this.data.user.role[0].id : "", [Validators.required]);
 
   public onUpdateItem(id: Number): void {
     this.userSvc.update(id,
@@ -50,7 +50,7 @@ export class DialogContent {
       this.roleFormControl.value,
     ).subscribe();
   }
-  
+
   public onCreateItem(): void {
     this.userSvc.create(
       this.emailFormControl.value,
