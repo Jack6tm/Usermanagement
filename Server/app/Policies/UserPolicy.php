@@ -47,7 +47,7 @@ class UserPolicy
     {
         $adminRole = UserRoles::ADMIN->name;
 
-        if ($adminRole == $user->roles[0]->name || $user == $model) {
+        if ($adminRole == $user->roles[0]->name || $user->id == $model->id) {
             return true;
         }
         return false;
