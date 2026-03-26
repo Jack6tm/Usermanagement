@@ -3,17 +3,7 @@ import { UserInterface } from '../Interface/user-interface';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpSvc } from '../../Auth/Service/http-svc';
-
-
-
-export interface UserApi {
-  id: number,
-  name: String,
-  first_name: String,
-  company_position: String,
-  email: String,
-  role: Array<any>
-}
+import { UserElement } from '../Interface/user-element';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +17,7 @@ export class UserService extends HttpSvc implements UserInterface {
   }
 
   public getAll(): Observable<any> {
-    return this.http.get<UserApi>(
+    return this.http.get<UserElement>(
       `${this.apiUrl}${UserService.API_PATH}`,
       { headers: this.httpHeader() }
     );

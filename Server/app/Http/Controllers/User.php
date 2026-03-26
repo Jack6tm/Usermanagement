@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserRoles;
 use App\Http\Resources\User as ResourcesUser;
 use App\Models\User as ModelsUser;
+use App\Models\Role as ModelsRole;
 use Illuminate\Http\Request;
 
 class User extends Controller
@@ -57,16 +58,32 @@ class User extends Controller
             "updated_at" => now()
         ]);
 
-        $adminRole = UserRoles::ADMIN->name;
-        if ((!$user->roles->pluck('name')->contains(UserRoles::ADMIN->name) && !$user->roles->pluck('name')->contains(UserRoles::MODERATOR->name)) &&
-            $adminRole != $request->role
-        ) {
+        $roleId = intval($request->role);
+        $role = ModelsRole::find($roleId);
+        $currentRoles = $request->user()->roles->pluck('name');
+        $isAdmin = $currentRoles->contains(UserRoles::ADMIN->name);
+        $isModerator = $currentRoles->contains(UserRoles::MODERATOR->name);
+
+        if ($user->id == $request->id) {
             return response()->json([
-                'message' => 'Vous devez disposer des droits suffisants pour changer le role.',
+                'message' => 'Vous ne pouvez pas modifier votre propre rôle.',
             ], 403);
         }
 
-        $roleId = intval($request->role);
+        if (!$isAdmin && !$isModerator) {
+            return response()->json([
+                'message' => 'Vous devez disposer des droits suffisants.',
+            ], 403);
+        }
+
+        if ($isModerator && !$isAdmin) {
+            if ($role->name === UserRoles::ADMIN->name) {
+                return response()->json([
+                    'message' => 'Un modérateur ne peut pas attribuer le rôle ADMIN.',
+                ], 403);
+            }
+        }
+
         $user->roles()->sync([$roleId]);
 
         return response()->json([

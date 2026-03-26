@@ -3,11 +3,9 @@
     @if(isLoggedIn$ | async) {
     <div>
       <ul class="text-center">
-        @if(user()) {
         <li>
-          {{user().name}},
+          {{user()?.name}} {{user()?.first_name}},
         </li>
-        }
         <li>
           <button class="text-red-600 cursor-pointer border p-2 rounded-lg" (click)='onLogout()'>
             Déconnexion

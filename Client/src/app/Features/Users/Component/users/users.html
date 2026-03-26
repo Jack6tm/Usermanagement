@@ -3,10 +3,11 @@
   <div class="flex flex-col w-full">
     <div class="w-full bg-gray-100 p-3 flex justify-end text-white shadow-2xl">
       <app-open-dialog [name]="'Ajouter un utilisateur'"></app-open-dialog>
+
     </div>
     <div class="w-full">
       @if(users$ | async; as user) {
-        <app-users-table [user]="user.data"></app-users-table>
+      <app-users-table [user]="user.data"></app-users-table>
       }
     </div>
   </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\User as ResourcesUser;
 
 class AuthController extends Controller
 {
@@ -20,7 +21,7 @@ class AuthController extends Controller
 
     public function me()
     {
-        return response()->json(auth()->user());
+        return new ResourcesUser(auth()->user());
     }
 
     public function logout()

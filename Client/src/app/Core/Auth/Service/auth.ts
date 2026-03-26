@@ -1,16 +1,16 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpSvc } from './http-svc';
 import { AuthInterface } from '../Interface/auth';
-import { UserElement } from '../../User/Interface/user-element';
+import { ApiResponse, UserElement } from '../../User/Interface/user-element';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends HttpSvc implements AuthInterface {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(!!this.getAuthToken());
-  public currentUser = signal<any>(null);
+  public currentUser = signal<UserElement|null>(null);
   public isLoggedIn$ = this._isLoggedIn$.asObservable();
 
   constructor(private http: HttpClient) {
@@ -22,8 +22,8 @@ export class AuthService extends HttpSvc implements AuthInterface {
           this.currentUser.set(null);
           this._isLoggedIn$.next(false);
         },
-        next: (usr) => {
-          this.currentUser.set(usr);
+        next: (usr: ApiResponse<UserElement>) => {
+          this.currentUser.set(usr.data);
         }
       });
     }
@@ -37,10 +37,8 @@ export class AuthService extends HttpSvc implements AuthInterface {
       tap((res: any) => {
         localStorage.setItem(this.tokenKey, res.token);
         this._isLoggedIn$.next(true);
-        this.getMe().subscribe((user) => this.currentUser.set(user));
+        this.getMe().subscribe((user: ApiResponse<UserElement>) => this.currentUser.set(user.data));
       }),
-      switchMap(() => this.getMe()),
-      tap(user => this.currentUser.set(user))
     );
   }
 
@@ -54,7 +52,7 @@ export class AuthService extends HttpSvc implements AuthInterface {
   }
 
   getMe() {
-    return this.http.get<UserElement>(`${this.apiUrl}/me`, { headers: this.httpHeader() });
+    return this.http.get<ApiResponse<UserElement>>(`${this.apiUrl}/me`, { headers: this.httpHeader() });
   }
 
   isAuth() {

@@ -54,7 +54,7 @@
       <mat-select [formControl]="roleFormControl">
         <mat-option>None</mat-option>
         @for(role of roles; track role) {
-        <mat-option value="{{role.id}}">{{role.name}}</mat-option>
+        <mat-option [value]="role.id">{{role.name}}</mat-option>
         }
       </mat-select>
       @if (roleFormControl.hasError('required')) {

@@ -16,6 +16,7 @@ export class Navbar {
   public user = this.authSvc.currentUser;
   public isLoggedIn$ = this.authSvc.isLoggedIn$;
 
+
   onLogout() {
     this.authSvc.logout().subscribe(() => {
       this.authSvc.removeAuthToken();

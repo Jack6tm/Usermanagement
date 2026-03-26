@@ -1,1 +1,1 @@
-<button matButton (click)="openDialog()">{{name}}</button>
+<button matButton (click)="openDialog()" [disabled]="!canEdit() && !canCreate()">{{name}}</button>
